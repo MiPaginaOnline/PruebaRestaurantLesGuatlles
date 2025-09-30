@@ -17,12 +17,12 @@
       --bg:#d2b48c;
       --card:#f1e0c6;
     }
-    *{box-sizing:border-box}
+    *{box-sizing:border-box;scroll-behavior:smooth;}
     html,body{height:100%;margin:0;font-family:Georgia, serif;color:#222;background:var(--bg)}
     a{color:var(--accent);text-decoration:none}
     .container{max-width:1100px;margin:0 auto;padding:28px}
 
-    header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 0}
+    header{position:sticky;top:0;z-index:1000;background:var(--bg);box-shadow:0 2px 6px rgba(0,0,0,.1);display:flex;align-items:center;justify-content:space-between;gap:16px;padding:10px 20px}
     .brand{display:flex;align-items:center;gap:14px}
     .logo{width:64px;height:64px;border-radius:10px;overflow:hidden;flex:0 0 64px;background-image:url('https://tse1.mm.bing.net/th/id/OIP.Gi4hYsIc4B3YbKDPpV0b8wAAAA?pid=Api');background-size:cover;background-position:center}
     h1{font-size:1.25rem;margin:0}
@@ -30,6 +30,12 @@
     nav li{padding:6px 10px;border-radius:8px}
     nav a{font-weight:600}
 
+    /* Hamburguesa móvil */
+    .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer}
+    .hamburger span{width:25px;height:3px;background:#222;border-radius:3px}
+    .nav-menu{display:flex;gap:12px;align-items:center}
+    .nav-links{display:flex;gap:12px}
+    .nav-links.active{display:flex}
     .lang-switch{display:flex;gap:8px;align-items:center}
     .lang-switch button{background:none;border:none;cursor:pointer;padding:0}
     .lang-switch img{width:28px;height:20px;border-radius:3px;box-shadow:0 0 2px rgba(0,0,0,.3)}
@@ -52,35 +58,33 @@
     .gallery a img{width:100%;height:120px;object-fit:cover;border-radius:8px}
     footer{margin-top:28px;padding:20px 0;color:var(--muted);font-size:0.9rem;text-align:center;display:flex;justify-content:space-between;align-items:center}
 
-    @media (max-width:900px){.gallery{grid-template-columns:repeat(2,1fr)}.hero-banner{height:50vh}}
-    @media (max-width:520px){.gallery a img{height:90px}.logo{display:none}.brand h1{font-size:1rem}.hero-content h1{font-size:1.7rem}}
+    @media (max-width:900px){
+      .gallery{grid-template-columns:repeat(2,1fr)}
+      .hero-banner{height:50vh}
+    }
+    @media (max-width:768px){
+      nav ul{flex-direction:column;position:absolute;top:70px;left:0;width:100%;background:var(--bg);padding:20px;display:none;flex-direction:column;gap:15px}
+      nav ul.active{display:flex}
+      .hamburger{display:flex}
+      .nav-menu{flex-direction:row-reverse;gap:15px}
+    }
+    @media (max-width:520px){
+      .gallery a img{height:90px}
+      .logo{display:none}
+      .brand h1{font-size:1rem}
+      .hero-content h1{font-size:1.7rem}
+    }
+
     .btn{display:inline-block;padding:10px 14px;border-radius:10px;background:var(--accent);color:#fff;font-weight:700}
     .label{font-weight:700;color:#333}
 
-    /* Botón flotante WhatsApp */
-    .whatsapp-btn {
-      position:fixed;
-      bottom:20px;
-      right:20px;
-      background:#25d366;
-      border-radius:50%;
-      width:60px;
-      height:60px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      box-shadow:0 4px 12px rgba(0,0,0,.3);
-      z-index:1000;
-    }
+    /* Botón WhatsApp */
+    .whatsapp-btn{position:fixed;bottom:20px;right:20px;background:#25d366;border-radius:50%;width:60px;height:60px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,.3);z-index:999}
     .whatsapp-btn img{width:35px;height:35px}
-
-    /* Redes sociales en footer */
-    .social-icons a img {
-      width:28px;
-      height:28px;
-      margin-left:10px;
-      vertical-align:middle;
+    @media (max-width:768px){
+      .whatsapp-btn{left:50%;right:auto;transform:translateX(-50%);}
     }
+    .social-icons a img{width:28px;height:28px;margin-left:10px}
   </style>
 </head>
 <body>
@@ -93,20 +97,22 @@
       </div>
     </div>
 
-    <nav aria-label="Navegación principal">
-      <ul>
-        <li><a href="#sobre" data-i18n="menu_about">Sobre</a></li>
-        <li><a href="#menu" data-i18n="menu_menu">Carta</a></li>
-        <li><a href="#eventos" data-i18n="menu_events">Eventos</a></li>
-        <li><a href="#galeria" data-i18n="menu_gallery">Galería</a></li>
-        <li><a href="#contacto" data-i18n="menu_contact">Contacto</a></li>
-      </ul>
-    </nav>
-
-    <div class="lang-switch" aria-label="Selector de idioma">
-      <button data-lang="es"><img src="https://flagcdn.com/es.svg" alt="Español"></button>
-      <button data-lang="ca"><img src="https://upload.wikimedia.org/wikipedia/commons/c/ce/Flag_of_Catalonia.svg" alt="Català"></button>
-      <button data-lang="en"><img src="https://flagcdn.com/gb.svg" alt="English"></button>
+    <div class="nav-menu">
+      <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+      <nav aria-label="Navegación principal">
+        <ul id="nav-links" class="nav-links">
+          <li><a href="#sobre" data-i18n="menu_about">Sobre</a></li>
+          <li><a href="#menu" data-i18n="menu_menu">Carta</a></li>
+          <li><a href="#eventos" data-i18n="menu_events">Eventos</a></li>
+          <li><a href="#galeria" data-i18n="menu_gallery">Galería</a></li>
+          <li><a href="#contacto" data-i18n="menu_contact">Contacto</a></li>
+        </ul>
+      </nav>
+      <div class="lang-switch" aria-label="Selector de idioma">
+        <button data-lang="es"><img src="https://flagcdn.com/es.svg" alt="Español"></button>
+        <button data-lang="ca"><img src="https://upload.wikimedia.org/wikipedia/commons/c/ce/Flag_of_Catalonia.svg" alt="Català"></button>
+        <button data-lang="en"><img src="https://flagcdn.com/gb.svg" alt="English"></button>
+      </div>
     </div>
   </header>
 
@@ -122,41 +128,41 @@
     <main>
       <section id="sobre" class="card">
         <h2 data-i18n="menu_about">Sobre</h2>
-        <p>En Les Guatlles ofrecemos cocina catalana auténtica en un ambiente rústico y moderno. Nuestro espacio está rodeado de naturaleza y pensado para disfrutar en familia.</p>
+        <p data-i18n="about_text">En Les Guatlles ofrecemos cocina catalana auténtica en un ambiente rústico y moderno. Nuestro espacio está rodeado de naturaleza y pensado para disfrutar en familia.</p>
       </section>
 
       <section id="menu" class="card">
         <h2 data-i18n="menu_menu">Carta</h2>
         <div class="menu-list">
-          <div class="menu-item"><span>Guatlles a la brasa</span><span>12 €</span></div>
-          <div class="menu-item"><span>Calçots con salsa romesco</span><span>10 €</span></div>
-          <div class="menu-item"><span>Carn a la brasa</span><span>15 €</span></div>
+          <div class="menu-item"><span data-i18n="dish1">Guatlles a la brasa</span><span>12 €</span></div>
+          <div class="menu-item"><span data-i18n="dish2">Calçots con salsa romesco</span><span>10 €</span></div>
+          <div class="menu-item"><span data-i18n="dish3">Carn a la brasa</span><span>15 €</span></div>
         </div>
       </section>
 
       <section id="eventos" class="card">
         <h2 data-i18n="menu_events">Eventos</h2>
-        <p>Organizamos calçotades, cenas de grupo y celebraciones familiares en nuestro espacio rústico. Consulta disponibilidad para tu evento especial.</p>
+        <p data-i18n="events_text">Organizamos calçotades, cenas de grupo y celebraciones familiares en nuestro espacio rústico. Consulta disponibilidad para tu evento especial.</p>
       </section>
 
       <section id="contacto" class="card">
         <h2 data-i18n="menu_contact">Contacto</h2>
         <div class="contact-list">
           <div class="contact-item"><span class="label">Tel:</span> +34 977 80 90 22</div>
-          <div class="contact-item"><span class="label">Dirección:</span> Disseminat, 8, 43883 Roda de Berà, Tarragona</div>
+          <div class="contact-item"><span class="label" data-i18n="address_label">Dirección:</span> <span data-i18n="address">Disseminat, 8, 43883 Roda de Berà, Tarragona</span></div>
         </div>
         <h3 data-i18n="reserve">Reservas</h3>
         <form action="https://formspree.io/f/xvgwkjdb" method="POST">
-          <label>Nombre<input type="text" name="name" required></label><br>
-          <label>Email<input type="email" name="email" required></label><br>
-          <label>Teléfono<input type="tel" name="phone" required></label><br>
-          <label>Fecha<input type="date" name="date" required></label><br>
-          <label>Hora<input type="time" name="time" required></label><br>
-          <label>Número de personas<input type="number" name="people" min="1" required></label><br>
-          <label>Mensaje<textarea name="message"></textarea></label><br>
-          <button type="submit" class="btn">Enviar</button>
+          <label data-i18n="form_name">Nombre<input type="text" name="name" required></label><br>
+          <label data-i18n="form_email">Email<input type="email" name="email" required></label><br>
+          <label data-i18n="form_phone">Teléfono<input type="tel" name="phone" required></label><br>
+          <label data-i18n="form_date">Fecha<input type="date" name="date" required></label><br>
+          <label data-i18n="form_time">Hora<input type="time" name="time" required></label><br>
+          <label data-i18n="form_people">Número de personas<input type="number" name="people" min="1" required></label><br>
+          <label data-i18n="form_message">Mensaje<textarea name="message"></textarea></label><br>
+          <button type="submit" class="btn" data-i18n="form_send">Enviar</button>
         </form>
-        <h3>Ubicación</h3>
+        <h3 data-i18n="location_map">Ubicación</h3>
         <iframe src="https://www.google.com/maps?q=Restaurant+Les+Guatlles+Roda+de+Berà&output=embed" width="100%" height="250" style="border:0;border-radius:12px" allowfullscreen="" loading="lazy"></iframe>
       </section>
 
@@ -173,83 +179,140 @@
     <footer>
       <span>© <span id="year"></span> <span data-i18n="title">Restaurant Les Guatlles</span></span>
       <span class="social-icons">
-        <a href="https://www.instagram.com/restaurantlesguatlles/?hl=es" target="_blank" rel="noopener">
-          <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram">
-        </a>
-        <a href="https://www.facebook.com/Restaurantlesguatlles/?locale=es_ES" target="_blank" rel="noopener">
-          <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook">
-        </a>
+        <a href="https://www.instagram.com/restaurantlesguatlles/?hl=es" target="_blank" rel="noopener"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram"></a>
+        <a href="https://www.facebook.com/Restaurantlesguatlles/?locale=es_ES" target="_blank" rel="noopener"><img src="https://upload.wikimedia.org/wikipedia/commons/1/1b/Facebook_icon.svg" alt="Facebook"></a>
       </span>
     </footer>
   </div>
 
-  <!-- Botón flotante de WhatsApp -->
   <a href="https://wa.me/34977809022" class="whatsapp-btn" target="_blank" rel="noopener">
     <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
   </a>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/simplelightbox/2.14.1/simple-lightbox.min.js"></script>
-  <script>
-  // Traducciones
-  const translations = {
-    es: {
-      title: 'Restaurant Les Guatlles',
-      location: 'Roda de Berà — Tarragona',
-      menu_about: 'Sobre',
-      menu_menu: 'Carta',
-      menu_events: 'Eventos',
-      menu_gallery: 'Galería',
-      menu_contact: 'Contacto',
-      hero_title: 'Restaurant Les Guatlles',
-      hero_sub: 'Cocina catalana y casera en un entorno rústico y familiar.',
-      reserve: 'Reservas'
-    },
-    ca: {
-      title: 'Restaurant Les Guatlles',
-      location: 'Roda de Berà — Tarragona',
-      menu_about: 'Sobre',
-      menu_menu: 'Carta',
-      menu_events: 'Esdeveniments',
-      menu_gallery: 'Galeria',
-      menu_contact: 'Contacte',
-      hero_title: 'Restaurant Les Guatlles',
-      hero_sub: 'Cuina catalana i casolana en un entorn rústic i familiar.',
-      reserve: 'Reserves'
-    },
-    en: {
-      title: 'Restaurant Les Guatlles',
-      location: 'Roda de Berà — Tarragona',
-      menu_about: 'About',
-      menu_menu: 'Menu',
-      menu_events: 'Events',
-      menu_gallery: 'Gallery',
-      menu_contact: 'Contact',
-      hero_title: 'Restaurant Les Guatlles',
-      hero_sub: 'Catalan homemade cuisine in a rustic and family-friendly environment.',
-      reserve: 'Reservations'
-    }
-  };
-
-  function setLanguage(lang) {
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-      const key = el.getAttribute('data-i18n');
-      if (translations[lang] && translations[lang][key]) {
-        el.textContent = translations[lang][key];
-      }
-    });
+<script src="https://cdnjs.cloudflare.com/ajax/libs/simplelightbox/2.14.1/simple-lightbox.min.js"></script>
+<script>
+const translations = {
+  es: {
+    title: 'Restaurant Les Guatlles',
+    location: 'Roda de Berà — Tarragona',
+    menu_about: 'Sobre',
+    menu_menu: 'Carta',
+    menu_events: 'Eventos',
+    menu_gallery: 'Galería',
+    menu_contact: 'Contacto',
+    hero_title: 'Restaurant Les Guatlles',
+    hero_sub: 'Cocina catalana y casera en un entorno rústico y familiar.',
+    reserve: 'Reservas',
+    about_text: 'En Les Guatlles ofrecemos cocina catalana auténtica en un ambiente rústico y moderno. Nuestro espacio está rodeado de naturaleza y pensado para disfrutar en familia.',
+    dish1: 'Guatlles a la brasa',
+    dish2: 'Calçots con salsa romesco',
+    dish3: 'Carn a la brasa',
+    events_text: 'Organizamos calçotades, cenas de grupo y celebraciones familiares en nuestro espacio rústico. Consulta disponibilidad para tu evento especial.',
+    address_label: 'Dirección:',
+    address: 'Disseminat, 8, 43883 Roda de Berà, Tarragona',
+    form_name: 'Nombre',
+    form_email: 'Email',
+    form_phone: 'Teléfono',
+    form_date: 'Fecha',
+    form_time: 'Hora',
+    form_people: 'Número de personas',
+    form_message: 'Mensaje',
+    form_send: 'Enviar',
+    location_map: 'Ubicación'
+  },
+  ca: {
+    title: 'Restaurant Les Guatlles',
+    location: 'Roda de Berà — Tarragona',
+    menu_about: 'Sobre',
+    menu_menu: 'Carta',
+    menu_events: 'Esdeveniments',
+    menu_gallery: 'Galeria',
+    menu_contact: 'Contacte',
+    hero_title: 'Restaurant Les Guatlles',
+    hero_sub: 'Cuina catalana i casolana en un entorn rústic i familiar.',
+    reserve: 'Reserves',
+    about_text: 'A Les Guatlles oferim cuina catalana autèntica en un ambient rústic i modern. El nostre espai està envoltat de natura i pensat per gaudir en família.',
+    dish1: 'Guatlles a la brasa',
+    dish2: 'Calçots amb salsa romesco',
+    dish3: 'Carn a la brasa',
+    events_text: 'Organitzem calçotades, sopars de grup i celebracions familiars al nostre espai rústic. Consulta disponibilitat per al teu esdeveniment especial.',
+    address_label: 'Adreça:',
+    address: 'Disseminat, 8, 43883 Roda de Berà, Tarragona',
+    form_name: 'Nom',
+    form_email: 'Correu electrònic',
+    form_phone: 'Telèfon',
+    form_date: 'Data',
+    form_time: 'Hora',
+    form_people: 'Nombre de persones',
+    form_message: 'Missatge',
+    form_send: 'Enviar',
+    location_map: 'Ubicació'
+  },
+  en: {
+    title: 'Restaurant Les Guatlles',
+    location: 'Roda de Berà — Tarragona',
+    menu_about: 'About',
+    menu_menu: 'Menu',
+    menu_events: 'Events',
+    menu_gallery: 'Gallery',
+    menu_contact: 'Contact',
+    hero_title: 'Restaurant Les Guatlles',
+    hero_sub: 'Catalan homemade cuisine in a rustic and family-friendly environment.',
+    reserve: 'Reservations',
+    about_text: 'At Les Guatlles we offer authentic Catalan cuisine in a rustic yet modern atmosphere. Our space is surrounded by nature and designed to enjoy with family.',
+    dish1: 'Grilled quail',
+    dish2: 'Calçots with romesco sauce',
+    dish3: 'Grilled meat',
+    events_text: 'We organize calçotades, group dinners and family celebrations in our rustic venue. Check availability for your special event.',
+    address_label: 'Address:',
+    address: 'Disseminat, 8, 43883 Roda de Berà, Tarragona',
+    form_name: 'Name',
+    form_email: 'Email',
+    form_phone: 'Phone',
+    form_date: 'Date',
+    form_time: 'Time',
+    form_people: 'Number of people',
+    form_message: 'Message',
+    form_send: 'Send',
+    location_map: 'Location'
   }
+};
 
-  document.querySelectorAll('.lang-switch button').forEach(btn => {
-    btn.addEventListener('click', () => {
-      setLanguage(btn.getAttribute('data-lang'));
-    });
+function setLanguage(lang){
+  localStorage.setItem('lang', lang);
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const key=el.getAttribute('data-i18n');
+    if(translations[lang] && translations[lang][key]){
+      el.textContent=translations[lang][key];
+    }
   });
+}
 
-  // Año actual
-  document.getElementById('year').textContent = new Date().getFullYear();
+// Inicializar idioma
+const savedLang = localStorage.getItem('lang') || 'es';
+setLanguage(savedLang);
 
-  // Lightbox
-  var lightbox = new SimpleLightbox('.gallery a', {});
-  </script>
+// Botones de idioma
+document.querySelectorAll('.lang-switch button').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    setLanguage(btn.getAttribute('data-lang'));
+  });
+});
+
+// Menú hamburguesa
+const hamburger=document.getElementById('hamburger');
+const navLinks=document.getElementById('nav-links');
+hamburger.addEventListener('click',()=>navLinks.classList.toggle('active'));
+navLinks.querySelectorAll('a').forEach(a=>{
+  a.addEventListener('click',()=>navLinks.classList.remove('active'));
+});
+
+// Año actual
+document.getElementById('year').textContent=new Date().getFullYear();
+
+// Lightbox
+var lightbox = new SimpleLightbox('.gallery a', {});
+</script>
 </body>
 </html>
+
