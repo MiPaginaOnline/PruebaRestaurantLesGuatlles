@@ -158,4 +158,70 @@
   </div>
 
   <a href="https://wa.me/34977809022" class="whatsapp-btn" target="_blank" rel="noopener">
-    <img src="https://
+    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+es: {
+title: 'Restaurant Les Guatlles',
+location: 'Roda de Berà — Tarragona',
+menu_about: 'Sobre',
+menu_menu: 'Carta',
+menu_events: 'Eventos',
+menu_gallery: 'Galería',
+menu_contact: 'Contacto',
+hero_title: 'Restaurant Les Guatlles',
+hero_sub: 'Cocina catalana y casera en un entorno rústico y familiar.',
+reserve: 'Reservas'
+},
+ca: {
+title: 'Restaurant Les Guatlles',
+location: 'Roda de Berà — Tarragona',
+menu_about: 'Sobre',
+menu_menu: 'Carta',
+menu_events: 'Esdeveniments',
+menu_gallery: 'Galeria',
+menu_contact: 'Contacte',
+hero_title: 'Restaurant Les Guatlles',
+hero_sub: 'Cuina catalana i casolana en un entorn rústic i familiar.',
+reserve: 'Reserves'
+},
+en: {
+title: 'Restaurant Les Guatlles',
+location: 'Roda de Berà — Tarragona',
+menu_about: 'About',
+menu_menu: 'Menu',
+menu_events: 'Events',
+menu_gallery: 'Gallery',
+menu_contact: 'Contact',
+hero_title: 'Restaurant Les Guatlles',
+hero_sub: 'Catalan homemade cuisine in a rustic and family-friendly environment.',
+reserve: 'Reservations'
+}
+};
+
+
+function setLanguage(lang) {
+document.querySelectorAll('.i18n').forEach(el => {
+const key = el.getAttribute('data-key');
+if(translations[lang] && translations[lang][key]){
+el.textContent = translations[lang][key];
+}
+});
+}
+
+
+document.querySelectorAll('.lang-switch button').forEach(btn => {
+btn.addEventListener('click', () => {
+setLanguage(btn.getAttribute('data-lang'));
+});
+});
+
+
+// Año actual
+document.getElementById('year').textContent = new Date().getFullYear();
+
+
+// Lightbox
+var lightbox = new SimpleLightbox('.gallery a', {});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/simplelightbox/2.14.1/simple-lightbox.min.js"></script>
+</body>
+</html>
