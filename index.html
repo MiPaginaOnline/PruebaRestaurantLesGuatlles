@@ -304,9 +304,31 @@
   </footer>
 
   <!-- WhatsApp flotante -->
-  <a href="https://wa.me/34977809022" class="whatsapp-btn" target="_blank" rel="noopener" aria-label="Abrir WhatsApp">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
-  </a>
+<a href="https://wa.me/34977809022" class="whatsapp-btn" target="_blank" rel="noopener" aria-label="Abrir WhatsApp">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+</a>
+
+<style>
+  .whatsapp-btn{
+    position: fixed;
+    bottom: 20px;            /* distancia desde el borde inferior */
+    left: 50%;               /* centro horizontal */
+    transform: translateX(-50%); /* centra exactamente */
+    background:#25d366;
+    border-radius:50%;
+    width:60px;
+    height:60px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 4px 12px rgba(0,0,0,.3);
+    z-index:1300;
+  }
+  .whatsapp-btn img{
+    width:35px;
+    height:35px;
+  }
+</style>
 
   <!-- Modal lightbox personalizado -->
   <div id="glOverlay" class="gl-overlay" aria-hidden="true" role="dialog" aria-label="Galería imagen">
