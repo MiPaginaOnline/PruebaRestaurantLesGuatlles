@@ -116,59 +116,50 @@
       .hero-banner{height:50vh}
     }
 
-    @media (max-width:768px){
-      /* header: apilar verticalmente: nombre arriba, debajo fila con hamburguesa + banderas */
-      header{
-        flex-direction: column;
-        align-items:stretch;
-        padding:10px;
-      }
-      /* brand: centrado, nombre en una línea si cabe */
-      .brand{display:flex;justify-content:center;padding:0;margin:0}
-      .brand .logo{display:none}
-      .brand h1{
-        font-size:1rem;
-        margin:0;
-        text-align:center;
-        white-space:nowrap;
-        overflow:hidden;
-        text-overflow:ellipsis;
-        color:#222;
-      }
+@media (max-width:768px){
+  header{
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding:6px 10px;
+    height:56px; /* más pequeño */
+  }
 
-      /* nav row (hamburger + flags) debajo del título */
-      .nav-menu{
-        display:flex;
-        align-items:center;
-        justify-content:space-between;
-        padding:8px 6px 0 6px;
-      }
-      .hamburger{display:flex;align-self:center}
-      .hamburger span{background:#222}
+  .brand{
+    flex-direction: row;
+    align-items: center;
+    gap:6px;
+  }
 
-      /* dropdown menu absolute under the sticky */
-      nav ul{
-        position: absolute;
-        top: calc(100% + 6px);
-        left: 12px;
-        right: 12px;
-        margin-top:0;
-        background: var(--glass-bg);
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
-        border-radius: 12px;
-        padding: 12px;
-        flex-direction: column;
-        display: none;
-        gap: 12px;
-        box-shadow: 0 8px 30px rgba(0,0,0,.18);
-        z-index: 1250;
-      }
-      nav ul.active{ display:flex; }
-      .lang-switch{gap:6px}
-      /* slightly smaller hero on very small screens */
-      .hero-content h1{font-size:1.8rem}
-    }
+  .brand .logo{display:none} /* ocultamos el logo en móvil */
+  .brand h1{
+    font-size:0.95rem;
+    margin:0;
+    white-space:nowrap;
+    color:#222;
+  }
+  .brand .muted{display:none} /* quitamos "Roda de Berà — Tarragona" */
+
+  .nav-menu{
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+
+  .hamburger{display:flex; padding:4px}
+  .hamburger span{background:#222; }
+
+  .lang-switch img{
+    width:22px;
+    height:16px;
+  }
+
+  nav ul{
+    top: calc(100% + 6px);
+    left: 10px;
+    right: 10px;
+  }
+}
 
     @media (max-width:520px){
       .gallery img{height:90px}
